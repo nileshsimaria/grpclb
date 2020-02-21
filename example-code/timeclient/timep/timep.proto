@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package timep;
+
+service TimeServer {
+  rpc GetTime (TimeRequest) returns (TimeReply) {}
+}
+
+message TimeRequest {
+  string name = 1;
+}
+
+message TimeReply {
+  string time = 1;
+}
