@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpclb-deployment
+  labels:
+    app: servers
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: servers
+  template:
+    metadata:
+      labels:
+        app: servers
+    spec:
+      containers:
+      - name: server-container
+        image: nileshsimaria/timeserver:v1
+        resources:
+          limits:
+            memory: 512Mi
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 50051
+          protocol: TCP                
+        command: ["/src/timeserver"]
+        args: ["--port", ":50051"]

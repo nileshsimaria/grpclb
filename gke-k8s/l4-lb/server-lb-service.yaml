@@ -1,0 +1,17 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "grpclb-deployment-service"
+  namespace: "default"
+  labels:
+    app: "servers"
+spec:
+  ports:
+  - protocol: "TCP"
+    port: 8080
+    targetPort: 50051
+  selector:
+    app: "servers"
+  type: "LoadBalancer"
+  loadBalancerIP: ""
