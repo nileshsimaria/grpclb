@@ -1,6 +1,6 @@
-Run example code locally on your laptop
+# Run example code locally on your laptop
 
-Start server
+## Start server
 ```
 $ cd github.com/nileshsimaria/grpclb/example-code/timeserver
 $ go run main.go --help
@@ -17,7 +17,7 @@ $ go run main.go
 
 By default it runs with insecure set to off.
 
-Start client
+## Start client
 ```
 $ cd github.com/nileshsimaria/grpclb/example-code/timeclient
 $ go run main.go --help
@@ -60,7 +60,7 @@ $ docker run --net=host nileshsimaria/timeclient:v4 --count 3
 
 Also explore Makefile for both client and server to get idea of how to build docker containers. 
 
-Streaming RPCs
+# Streaming RPCs
 
 The example code (grpc server and client) also supports streaming RPCs. In total it has 4 RPCs. One Unary and 3 streaming RPCs as shown below. For streaming, it has one each for input stream, output stream and bi-directional stream. Read timep.proto to see what's latest and greatest in there.
 
