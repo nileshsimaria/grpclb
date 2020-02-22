@@ -110,16 +110,18 @@ func init() {
 func init() { proto.RegisterFile("timep/timep.proto", fileDescriptor_72372096a64749c0) }
 
 var fileDescriptor_72372096a64749c0 = []byte{
-	// 134 bytes of a gzipped FileDescriptorProto
+	// 175 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2c, 0xc9, 0xcc, 0x4d,
 	0x2d, 0xd0, 0x07, 0x93, 0x7a, 0x05, 0x45, 0xf9, 0x25, 0xf9, 0x42, 0xac, 0x60, 0x8e, 0x92, 0x22,
 	0x17, 0x77, 0x48, 0x66, 0x6e, 0x6a, 0x50, 0x6a, 0x61, 0x69, 0x6a, 0x71, 0x89, 0x90, 0x10, 0x17,
 	0x4b, 0x5e, 0x62, 0x6e, 0xaa, 0x04, 0xa3, 0x02, 0xa3, 0x06, 0x67, 0x10, 0x98, 0xad, 0x24, 0xcf,
-	0xc5, 0x09, 0x51, 0x52, 0x90, 0x53, 0x09, 0x52, 0x00, 0xd2, 0x08, 0x53, 0x00, 0x62, 0x1b, 0xd9,
-	0x73, 0x71, 0x81, 0x14, 0x04, 0xa7, 0x16, 0x95, 0xa5, 0x16, 0x09, 0x19, 0x72, 0xb1, 0xbb, 0xa7,
-	0x96, 0x80, 0x04, 0x84, 0x84, 0xf4, 0x20, 0x36, 0x22, 0xd9, 0x20, 0x25, 0x80, 0x22, 0x56, 0x90,
-	0x53, 0xa9, 0xc4, 0x90, 0xc4, 0x06, 0x76, 0x92, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0x56, 0x86,
-	0xef, 0xe0, 0xa7, 0x00, 0x00, 0x00,
+	0xc5, 0x09, 0x51, 0x52, 0x90, 0x53, 0x09, 0x52, 0x00, 0xd2, 0x08, 0x53, 0x00, 0x62, 0x1b, 0xbd,
+	0x63, 0xe4, 0xe2, 0x02, 0xa9, 0x08, 0x4e, 0x2d, 0x2a, 0x4b, 0x2d, 0x12, 0x32, 0xe4, 0x62, 0x77,
+	0x4f, 0x2d, 0x01, 0x09, 0x08, 0x09, 0xe9, 0x41, 0xac, 0x44, 0xb2, 0x42, 0x4a, 0x00, 0x45, 0xac,
+	0x20, 0xa7, 0x52, 0x89, 0x41, 0xc8, 0x9c, 0x8b, 0x1b, 0xaa, 0x25, 0xd8, 0xbf, 0xb4, 0x84, 0x58,
+	0x6d, 0x06, 0x8c, 0x42, 0x66, 0x5c, 0x5c, 0x30, 0x8d, 0x9e, 0x79, 0xc4, 0xea, 0xd3, 0x60, 0x14,
+	0xb2, 0xe1, 0xe2, 0x43, 0xe8, 0x23, 0xc5, 0x4e, 0x0d, 0x46, 0x03, 0xc6, 0x24, 0x36, 0x70, 0x10,
+	0x1a, 0x03, 0x02, 0x00, 0x00, 0xff, 0xff, 0x0c, 0x61, 0x3c, 0xb2, 0x57, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -135,6 +137,9 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type TimeServerClient interface {
 	GetTime(ctx context.Context, in *TimeRequest, opts ...grpc.CallOption) (*TimeReply, error)
+	GetTimeSOut(ctx context.Context, in *TimeRequest, opts ...grpc.CallOption) (TimeServer_GetTimeSOutClient, error)
+	GetTimeSIn(ctx context.Context, opts ...grpc.CallOption) (TimeServer_GetTimeSInClient, error)
+	GetTimeSInSOut(ctx context.Context, opts ...grpc.CallOption) (TimeServer_GetTimeSInSOutClient, error)
 }
 
 type timeServerClient struct {
@@ -154,9 +159,109 @@ func (c *timeServerClient) GetTime(ctx context.Context, in *TimeRequest, opts ..
 	return out, nil
 }
 
+func (c *timeServerClient) GetTimeSOut(ctx context.Context, in *TimeRequest, opts ...grpc.CallOption) (TimeServer_GetTimeSOutClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_TimeServer_serviceDesc.Streams[0], "/timep.TimeServer/GetTimeSOut", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &timeServerGetTimeSOutClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type TimeServer_GetTimeSOutClient interface {
+	Recv() (*TimeReply, error)
+	grpc.ClientStream
+}
+
+type timeServerGetTimeSOutClient struct {
+	grpc.ClientStream
+}
+
+func (x *timeServerGetTimeSOutClient) Recv() (*TimeReply, error) {
+	m := new(TimeReply)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *timeServerClient) GetTimeSIn(ctx context.Context, opts ...grpc.CallOption) (TimeServer_GetTimeSInClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_TimeServer_serviceDesc.Streams[1], "/timep.TimeServer/GetTimeSIn", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &timeServerGetTimeSInClient{stream}
+	return x, nil
+}
+
+type TimeServer_GetTimeSInClient interface {
+	Send(*TimeRequest) error
+	CloseAndRecv() (*TimeReply, error)
+	grpc.ClientStream
+}
+
+type timeServerGetTimeSInClient struct {
+	grpc.ClientStream
+}
+
+func (x *timeServerGetTimeSInClient) Send(m *TimeRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *timeServerGetTimeSInClient) CloseAndRecv() (*TimeReply, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(TimeReply)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *timeServerClient) GetTimeSInSOut(ctx context.Context, opts ...grpc.CallOption) (TimeServer_GetTimeSInSOutClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_TimeServer_serviceDesc.Streams[2], "/timep.TimeServer/GetTimeSInSOut", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &timeServerGetTimeSInSOutClient{stream}
+	return x, nil
+}
+
+type TimeServer_GetTimeSInSOutClient interface {
+	Send(*TimeRequest) error
+	Recv() (*TimeReply, error)
+	grpc.ClientStream
+}
+
+type timeServerGetTimeSInSOutClient struct {
+	grpc.ClientStream
+}
+
+func (x *timeServerGetTimeSInSOutClient) Send(m *TimeRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *timeServerGetTimeSInSOutClient) Recv() (*TimeReply, error) {
+	m := new(TimeReply)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // TimeServerServer is the server API for TimeServer service.
 type TimeServerServer interface {
 	GetTime(context.Context, *TimeRequest) (*TimeReply, error)
+	GetTimeSOut(*TimeRequest, TimeServer_GetTimeSOutServer) error
+	GetTimeSIn(TimeServer_GetTimeSInServer) error
+	GetTimeSInSOut(TimeServer_GetTimeSInSOutServer) error
 }
 
 // UnimplementedTimeServerServer can be embedded to have forward compatible implementations.
@@ -165,6 +270,15 @@ type UnimplementedTimeServerServer struct {
 
 func (*UnimplementedTimeServerServer) GetTime(ctx context.Context, req *TimeRequest) (*TimeReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTime not implemented")
+}
+func (*UnimplementedTimeServerServer) GetTimeSOut(req *TimeRequest, srv TimeServer_GetTimeSOutServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetTimeSOut not implemented")
+}
+func (*UnimplementedTimeServerServer) GetTimeSIn(srv TimeServer_GetTimeSInServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetTimeSIn not implemented")
+}
+func (*UnimplementedTimeServerServer) GetTimeSInSOut(srv TimeServer_GetTimeSInSOutServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetTimeSInSOut not implemented")
 }
 
 func RegisterTimeServerServer(s *grpc.Server, srv TimeServerServer) {
@@ -189,6 +303,79 @@ func _TimeServer_GetTime_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TimeServer_GetTimeSOut_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(TimeRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(TimeServerServer).GetTimeSOut(m, &timeServerGetTimeSOutServer{stream})
+}
+
+type TimeServer_GetTimeSOutServer interface {
+	Send(*TimeReply) error
+	grpc.ServerStream
+}
+
+type timeServerGetTimeSOutServer struct {
+	grpc.ServerStream
+}
+
+func (x *timeServerGetTimeSOutServer) Send(m *TimeReply) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _TimeServer_GetTimeSIn_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(TimeServerServer).GetTimeSIn(&timeServerGetTimeSInServer{stream})
+}
+
+type TimeServer_GetTimeSInServer interface {
+	SendAndClose(*TimeReply) error
+	Recv() (*TimeRequest, error)
+	grpc.ServerStream
+}
+
+type timeServerGetTimeSInServer struct {
+	grpc.ServerStream
+}
+
+func (x *timeServerGetTimeSInServer) SendAndClose(m *TimeReply) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *timeServerGetTimeSInServer) Recv() (*TimeRequest, error) {
+	m := new(TimeRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func _TimeServer_GetTimeSInSOut_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(TimeServerServer).GetTimeSInSOut(&timeServerGetTimeSInSOutServer{stream})
+}
+
+type TimeServer_GetTimeSInSOutServer interface {
+	Send(*TimeReply) error
+	Recv() (*TimeRequest, error)
+	grpc.ServerStream
+}
+
+type timeServerGetTimeSInSOutServer struct {
+	grpc.ServerStream
+}
+
+func (x *timeServerGetTimeSInSOutServer) Send(m *TimeReply) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *timeServerGetTimeSInSOutServer) Recv() (*TimeRequest, error) {
+	m := new(TimeRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 var _TimeServer_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "timep.TimeServer",
 	HandlerType: (*TimeServerServer)(nil),
@@ -198,6 +385,23 @@ var _TimeServer_serviceDesc = grpc.ServiceDesc{
 			Handler:    _TimeServer_GetTime_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetTimeSOut",
+			Handler:       _TimeServer_GetTimeSOut_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetTimeSIn",
+			Handler:       _TimeServer_GetTimeSIn_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "GetTimeSInSOut",
+			Handler:       _TimeServer_GetTimeSInSOut_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "timep/timep.proto",
 }
