@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: server-container
-        image: nileshsimaria/timeserver:v4
+        image: nileshsimaria/timeserver:v5
         resources:
           limits:
             memory: 512Mi
