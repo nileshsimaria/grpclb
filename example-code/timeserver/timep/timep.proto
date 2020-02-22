@@ -4,6 +4,9 @@ package timep;
 
 service TimeServer {
   rpc GetTime (TimeRequest) returns (TimeReply) {}
+  rpc GetTimeSOut (TimeRequest) returns (stream TimeReply) {}
+  rpc GetTimeSIn (stream TimeRequest) returns (TimeReply) {}
+  rpc GetTimeSInSOut (stream TimeRequest) returns (stream TimeReply) {}
 }
 
 message TimeRequest {
