@@ -1,14 +1,14 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: fe-ingress
+  name: server-ingress
   annotations:
     kubernetes.io/ingress.allow-http: "false"   
 spec:
   tls:
   - hosts:
-    - server.domain.com
-    secretName: fe-secret
+    - timeserver.gke.net
+    secretName: server-secret
   backend:
-    serviceName: fe-srv-ingress
+    serviceName: server-ingress-service
     servicePort: 50051
