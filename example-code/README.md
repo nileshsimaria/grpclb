@@ -59,3 +59,44 @@ $ docker run --net=host nileshsimaria/timeclient:v4 --count 3
 ```
 
 Also explore Makefile for both client and server to get idea of how to build docker containers. 
+
+Streaming RPCs
+
+The example code (grpc server and client) also supports streaming RPCs. In total it has 4 RPCs. One Unary and 3 streaming RPCs as shown below. For streaming, it has one each for input stream, output stream and bi-directional stream. Read timep.proto to see what's latest and greatest in there.
+
+```
+service TimeServer {
+  rpc GetTime (TimeRequest) returns (TimeReply) {}
+  rpc GetTimeSOut (TimeRequest) returns (stream TimeReply) {}
+  rpc GetTimeSIn (stream TimeRequest) returns (TimeReply) {}
+  rpc GetTimeSInSOut (stream TimeRequest) returns (stream TimeReply) {}
+}
+```
+
+- GetTime is Unary
+- GetTimeSOut is output streaming
+- GetTimeSIn is input stream
+- GetTimeSInSOut is bidirectional streaming
+
+To test various APIs, you can you the command line options of the client.
+
+```
+❯ ./timeclient --help
+Usage of ./timeclient:
+  -api int
+    	GetTime(1), GetTimeSOut(2), GetTimeSIn(3), GetTimeSInSOut(4) (default 1)
+  -cacert string
+    	CACert for server (default "CA.crt")
+  -count int
+    	number of rpc calls (default 1)
+  -host string
+    	grpc server host:port (default "localhost:50051")
+  -insecure
+    	connect without TLS
+  -servername string
+    	CACert for server (default "timeserver.gke.net")
+  -sin int
+    	number of messages in GetTimeSIn (input stream) rpc calls (default 1)
+```
+
+Use 'api' option to specify which rpc you want to test. Also see 'sin' option, you can specify number of streaming messages for streaming RPCs. 
