@@ -2,14 +2,14 @@ ldocker-build:
 	docker build -t timeserver .
 
 docker-build:
-	docker build -t nileshsimaria/timeserver:v4 .
+	docker build -t nileshsimaria/timeserver:v5 .
 
 ldocker-run:
 	docker run -p 50051:50051 -it timeserver:latest
 rdocker-run:
-	docker run -p 50051:50051  nileshsimaria/timeserver:v4
+	docker run -p 50051:50051  nileshsimaria/timeserver:v5
 docker-push:
-	docker push nileshsimaria/timeserver:v4
+	docker push nileshsimaria/timeserver:v5
 
 genpb:
 	protoc --go_out=plugins=grpc:. timep/timep.proto
