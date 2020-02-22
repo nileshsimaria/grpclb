@@ -16,8 +16,8 @@ import (
 var (
 	host       = flag.String("host", "localhost:50051", "grpc server host:port")
 	n          = flag.Int("count", 1, "number of rpc calls")
-	cacert     = flag.String("cacert", "CA.pem", "CACert for server")
-	serverName = flag.String("servername", "grpc.domain.com", "CACert for server")
+	cacert     = flag.String("cacert", "CA.crt", "CACert for server")
+	serverName = flag.String("servername", "timeserver.gke.net", "CACert for server")
 	insecure   = flag.Bool("insecure", false, "connect without TLS")
 )
 

@@ -77,7 +77,7 @@ func main() {
 	})
 	log.Printf("Starting gRPC server(port=%v)", *port)
 	if *insecure == false {
-		log.Fatal(http.ListenAndServeTLS(*port, "server_crt.pem", "server_key.pem", h2c.NewHandler(muxHandler, &http2.Server{})))
+		log.Fatal(http.ListenAndServeTLS(*port, "server.crt", "server.key", h2c.NewHandler(muxHandler, &http2.Server{})))
 	}
 	log.Fatal(http.ListenAndServe(*port, h2c.NewHandler(muxHandler, &http2.Server{})))
 }
