@@ -4,6 +4,9 @@ $ gcloud container  clusters create grpclb-cluster --zone us-central1-a  --num-n
 NAME            LOCATION       MASTER_VERSION  MASTER_IP      MACHINE_TYPE   NODE_VERSION    NUM_NODES  STATUS
 grpclb-cluster  us-central1-a  1.14.10-gke.17  34.68.140.122  n1-standard-1  1.14.10-gke.17  3          RUNNING
 
+# to test load balancer service, allow tcp port 50051
+$ gcloud compute firewall-rules create grpc-lb-fw --allow tcp:50051
+
 # query nodes
 $ kubectl get nodes
 NAME                                            STATUS   ROLES    AGE     VERSION
