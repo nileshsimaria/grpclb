@@ -181,15 +181,9 @@ Now check our ingress.
 $ kubectl get ingress
 NAME             HOSTS   ADDRESS         PORTS     AGE
 server-ingress   *       34.107.247.95   80, 443   7h40m```
+```
 
-Use this 130.211.11.169:443 to talk to ingress over TLS. This should do L7 LB even for streaming RPCs. Please note that we are not at all creating normal L4 load balancing service for this test.
-
-It takes some time for the GKE to setup everything for ingress service. Wait for max 10 minutes before you give up :-)
-
-Meanwhile, go to console.cloud.google.com and check 'Services & Ingress' under GKE.
-
-
-Once ingress has been created, use 34.107.247.95:443 to make RPC calls. 
+Use this 130.211.11.169:443 to talk to ingress over TLS. This should do L7 LB even for streaming RPCs. Please note that we are not at all creating normal L4 load balancing service for this test. It takes some time for the GKE to setup everything for ingress service. Wait for max 10 minutes before you give up :-) Meanwhile, go to console.cloud.google.com and check 'Services & Ingress' under GKE. Once ingress has been created, use 34.107.247.95:443 to make RPC calls. 
 
 ## Test output streaming API
 
