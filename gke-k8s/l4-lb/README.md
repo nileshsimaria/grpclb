@@ -7,12 +7,12 @@ NAME            LOCATION       MASTER_VERSION  MASTER_IP      MACHINE_TYPE   NOD
 grpclb-cluster  us-central1-a  1.14.10-gke.17  34.68.140.122  n1-standard-1  1.14.10-gke.17  3          RUNNING
 ```
 
-## to test load balancer service, allow tcp port 50051
+## To test load balancer service, allow tcp port 50051
 ```
 $ gcloud compute firewall-rules create grpc-lb-fw --allow tcp:50051
 ```
 
-## query nodes
+## Query nodes
 ```
 $ kubectl get nodes
 NAME                                            STATUS   ROLES    AGE     VERSION
@@ -21,12 +21,12 @@ gke-grpclb-cluster-default-pool-09ead34e-b08r   Ready    <none>   6m10s   v1.14.
 gke-grpclb-cluster-default-pool-09ead34e-qvpx   Ready    <none>   6m11s   v1.14.10-gke.17
 ```
 
-## deploy servers (github.com/nileshsimaria/grpclb/gke-k8s/l4-lb)
+## Deploy servers (github.com/nileshsimaria/grpclb/gke-k8s/l4-lb)
 ```
 $ kubectl apply -f server-deployment.yaml
 ```
 
-## query pods (we set replica to 2)
+## Query pods (we set replica to 2)
 ```
 $ kubectl get pods
 NAME                                 READY   STATUS    RESTARTS   AGE
@@ -34,12 +34,12 @@ grpclb-deployment-844c7c8b6b-2dvfs   1/1     Running   0          14m
 grpclb-deployment-844c7c8b6b-4q2ws   1/1     Running   0          14m
 ```
 
-## create external load balancing service
+## Create external load balancing service
 ```
 $ kubectl apply -f server-lb-service.yaml
 ```
 
-## query our service
+## Query our service
 ```
 $ kubectl get svc
 NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
@@ -47,7 +47,7 @@ grpclb-deployment-service   LoadBalancer   10.15.241.197   34.69.243.120   8080:
 kubernetes                  ClusterIP      10.15.240.1     <none>          443/TCP          46m
 ```
 
-## test it using the client (only L4 LB is happening)
+## Test it using the client (only L4 LB is happening)
 ```
 $ docker run nileshsimaria/timeclient:v1 --host 34.69.243.120:8080 --count 3
 2020/02/21 19:54:24 Reply: time:"[time=2020-02-21 19:54:24.378684874 +0000 UTC m=+1206.758784680] [host=grpclb-deployment-844c7c8b6b-4q2ws]"
