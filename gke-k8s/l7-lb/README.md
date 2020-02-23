@@ -1,6 +1,10 @@
-```
-# yaml files in github.com/nileshsimaria/grpclb/gke-k8s/l7-lb
 
+# Setup and Test GKE L4/L7 LB for GRPC
+
+yaml files in github.com/nileshsimaria/grpclb/gke-k8s/l7-lb
+
+## Apply deployment, service, lb-service and ingress
+```
 # deploy both l7 and l4 lb files
 $ kubectl apply -f server-deployment.yaml -f server-ingress-service.yaml -f server-ingress.yaml -f server-lb-service.yaml -f server-secret.yaml
 deployment.apps/grpclb-deployment created
@@ -8,10 +12,12 @@ service/server-ingress-service created
 ingress.extensions/server-ingress created
 service/server-lb-service created
 secret/server-secret unchanged
+```
 
-Note := server-lb-service.yaml is just l4 lb. For l7 lb, the service is nodePort (server-ingress-service.yaml) and the ingress controller which is server-ingress.yaml
+server-lb-service.yaml is just l4 lb. For l7 lb, the service is nodePort (server-ingress-service.yaml) and the ingress controller which is server-ingress.yaml
 
-# find LB and Ingress IP
+## find LB and Ingress IP
+```
 $ kubectl get pods
 NAME                                 READY   STATUS    RESTARTS   AGE
 grpclb-deployment-84fc8f9449-5wlmb   1/1     Running   0          2m2s
@@ -27,13 +33,17 @@ server-lb-service        LoadBalancer   10.0.10.123   35.202.224.46   50051:3014
 $ kubectl get ingress
 NAME             HOSTS   ADDRESS         PORTS     AGE
 server-ingress   *       34.107.247.95   80, 443   2m12s
+```
 
 As you can see use IP 35.202.224.46 from server-lb-service for l4 LB and use IP 34.107.247.9 from server-ingress for l7 LB.
 
-# test L4 LB
+## test L4 LB
+```
 $ docker run nileshsimaria/timeclient:v4 --host 35.202.224.46:50051  --count 20
+```
 
-# test L7 LB
+## test L7 LB
+```
 $ docker run nileshsimaria/timeclient:v4 --host 34.107.247.95:443  --count 20
 2020/02/22 07:08:12 Reply: time:"[time=2020-02-22 07:08:12.887172982 +0000 UTC m=+312.813041597] [host=grpclb-deployment-84fc8f9449-5wlmb]"
 2020/02/22 07:08:13 Reply: time:"[time=2020-02-22 07:08:12.951555165 +0000 UTC m=+312.323720352] [host=grpclb-deployment-84fc8f9449-9kzmx]"
@@ -58,7 +68,6 @@ $ docker run nileshsimaria/timeclient:v4 --host 34.107.247.95:443  --count 20
 
 Note :- in this test, I have used TLS.
 ```
-
 
 # L7 only tests with streaming RPCs
 
