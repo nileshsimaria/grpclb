@@ -58,3 +58,12 @@ grpcurl --insecure fortune-teller.stack.build:443 build.stack.fortune.FortuneTel
   "message": "Come live with me, and be my love,\nAnd we will some new pleasures prove\nOf golden sands, and crystal brooks,\nWith silken lines, and silver hooks.\n\t\t-- John Donne"
 }
 ```
+
+## no virtual host
+
+If you do not want to specify host in the rule
+```
+kubectl apply -f ingress-nohost.yaml
+```
+
+Now use IP to talk to server (in grpcurl)
