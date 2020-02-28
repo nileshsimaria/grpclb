@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: time-app
+  labels:
+    k8s-app: time-app
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: time-app
+  template:
+    metadata:
+      labels:
+        k8s-app: time-app
+    spec:
+      containers:
+      - name: time-app
+        image: nileshsimaria/timeserver:v5
+        command: ["/src/timeserver"]
+        args: ["-insecure"]
+        ports:
+        - containerPort: 50051
+          name: grpc
