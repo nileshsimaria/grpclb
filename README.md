@@ -13,4 +13,7 @@ How to achieve and test L7 LB on GKE
 - https://github.com/nileshsimaria/grpclb/blob/master/gke-k8s/l7-lb/README.md
 
 # grpclb (NGINX on GKE)
+## time server (nileshsimaria/grpclb/example-code/timeserver)
+https://github.com/nileshsimaria/grpclb/tree/master/nginx/time-server
+## fortune-teller server
 https://github.com/nileshsimaria/grpclb/tree/master/nginx/fortune-teller
