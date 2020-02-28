@@ -1,4 +1,4 @@
-# grpclb
+# grpclb (GKE native)
 GRPC Load Balancing 
 
 To see how to run example code locally on your laptop and using docker
@@ -11,3 +11,6 @@ How to achieve and test L4 LB on GKE
 
 How to achieve and test L7 LB on GKE
 - https://github.com/nileshsimaria/grpclb/blob/master/gke-k8s/l7-lb/README.md
+
+# grpclb (NGINX on GKE)
+https://github.com/nileshsimaria/grpclb/tree/master/nginx/fortune-teller
