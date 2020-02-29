@@ -22,3 +22,6 @@ https://github.com/nileshsimaria/grpclb/tree/master/nginx/time-server
 
 ## fortune-teller server
 https://github.com/nileshsimaria/grpclb/tree/master/nginx/fortune-teller
+
+## how to setup one controller for both grpc and http
+https://github.com/nileshsimaria/grpclb/blob/master/nginx/grpc-and-http-ingress/README.md
